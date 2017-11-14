@@ -1,0 +1,16 @@
+<div style="background:red;width:300px;height:300px;">
+    <h1>标题</h1>
+    <div>{{getName()}}</div>
+    <div>{{age}}</div>
+<!--    <div>{{age}}</div>
+    <div>{{sex}}</div>-->
+    <input type="button" ng-click="forGetname();" value="模版"/>
+    <div ng-repeat="v in forPeople()">
+        {{v.name}}
+    </div>
+    <div ng-transclude></div>
+    <div>{{name}}</div>
+<!--    <div>{{age}}</div>
+    <div>{{sex}}</div>-->
+    <input type="button" ng-click="setname();" value="修改"/>
+</div>

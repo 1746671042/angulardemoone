@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../angular-1.6.6/angular.js"></script>
+    </head>
+    <body ng-app="myApp">
+    <!--<ts-hello></ts-hello>--> 
+    <!--<div ts-hello></div>-->
+    
+    <div ng-controller="myCon">
+        控制器中的name:{{name}}
+<!--        <div class="ts-hello">
+        </div>-->
+        <ts-hello get-name="name" for-people="people" for-getname="getname()">
+            <h1>hello</h1>
+        </ts-hello>
+        控制器中的button:<input type="button" ng-click="name='王五';" value="控制器"/>
+        {{age}}
+    </div>
+    </body>
+</html>
+<script>
+    var app = angular.module("myApp",[]);
+    app.controller("myCon",["$scope",function($scope){
+            $scope.name = "李四";
+            $scope.age = 12;
+            $scope.sex = "男";
+            $scope.people = [
+                {name:"习近平",age:63},
+                {name:"李克强",age:61}
+            ];
+            $scope.getname = function(){
+                $scope.name = "马六";
+            }
+    }]);
+    //自定义指令
+//    模块的名字.directive("指令名称",[function(){
+//            return {
+//               restrict:"",
+//               template:""
+//            };
+//    }])
+//    指令名称:必须是小驼峰命名,(backImage)
+//    调用指令的时候,必须换成是横线 
+//    restrict:当前指令的使用范围，或者使用方式
+//        E：标签,调用方式,<指令名称></指令名称>
+//        A：属性,调用方式<标签 指令名称>
+//        C：类别，class的值，调用<标签 class='指令名称'>
+//        M：注释<!--directive:指令名字-->
+    app.directive("tsHello",[function(){
+            return {
+                restrict:"EAC",
+//                template:"<div class=\"name\"><h1>hello,angularJs</h1></div>",
+                templateUrl:"template.html",//模版路径，相对地址
+//                template:function(tElement,tAttrs){
+//                    console.log(tElement);
+//                    console.log(tAttrs);
+//                },
+//                scope:true,继承的原理，指令相对与是一个子元素，他会继承父元素的变量，当子元素单独修改过变量后，则不再继承
+//                scope:false，如果为false：指令中的变量和所在的控制器变量是互通，可以相互修改
+                replace:true,
+                scope:{//对象目录，继承某些变量
+//                    name:"@forName",//指令中的name值是for-name属性的值,相对与scope为true,属性添加for-name="{{name}}"
+//                     name:"=forName",//指令中的name值是for-name属性的值，相对与scope为false,属性添加for-name="name"
+                    getName:"&",
+                    forPeople:"&",
+                    forGetname:"&",//getName是属性名称for-getname转义过来的，for-getname="people"
+//                    &调用时都是名称()
+                },
+//                scope的值为true或者false，或者@\=，不能继承方法,，只能传最普通的变量,数组
+                transclude:true,
+//                    默认情况下，调用指令的标签内的元素，会被指令所包含的代码完成覆盖
+//                       想要保留标签内的代码:1.transclude:true,
+//                          2.在模版页面需要给保留的代码划分位置,在划分的标签上增加一个ng-transclude属性
+                //link属性的作用：就定义指令本身的方法，变量，或者调用数据
+                link:function(scope,iEle,iAttr){
+//                    scope:和控制器中的￥scope一样的
+                    scope.age = 14;
+                    scope.name = "zhangsan";
+                    scope.setname = function(){
+                      scope.name = "lisi";
+                    };
+                    console.log(scope);
+                    console.log(iEle);
+                    console.log(iAttr);
+                }
+            };
+    }]);
+</script>

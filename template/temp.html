@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>引用别处路径</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../angular-1.6.6/angular.js"></script>
+    </head>
+    <body>  
+        <div ng-app="myApp">
+            
+            <le_hello></le_hello>
+            <div le_hello></div>
+            <div class="le_hello"></div>
+        </div>
+    </body>
+    <script>
+        var app = angular.module("myApp",[]);
+        app.directive("leHello",[function() {
+                return{
+//       三种引入方式 E:直接写 大写转换为小写加横岗
+//                    A:属性名调用
+//                    C：类名调用
+                    restrict:"EAC",
+//                    template:"<div class=\"name\"><h1>hello,word</h1></div>",  //如果指定class需要转义
+                    templateUrl:"template.html",   //引用别处模板路径，相对地址
+                }
+        }])
+    </script>
+</html>
